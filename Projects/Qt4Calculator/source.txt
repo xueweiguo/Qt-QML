@@ -1,0 +1,2954 @@
+#include "acosdfun.h"
+#include "functionmanager.h"
+
+#include <math.h>
+
+static FunctionManager::FunctionRegister acosRegister(new AcosdFun());
+
+AcosdFun::AcosdFun()
+{
+}
+
+QString AcosdFun::getName()
+{
+    return "acosd";
+}
+
+QString AcosdFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "acosd(x) -\r\n";
+    strInstruction += "Arccosine (inverse cosine) function. Result in degrees.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "x must be of type real. Its value must satisfy the inequality |X| <= 1.\r\n";
+    return strInstruction;
+}
+
+bool AcosdFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() != 1)
+    {
+        message = "Acosd:Invalid parameter count";
+        return false;
+    }
+    double para = paraList.first();
+    clearError();
+    result =acos(para) * 180 / M_PI;
+    return checkError(message);
+}
+#include "acosrfun.h"
+#include "functionmanager.h"
+
+#include <math.h>
+
+static FunctionManager::FunctionRegister acosrRegister(new AcosrFun());
+
+AcosrFun::AcosrFun()
+{
+}
+
+QString AcosrFun::getName()
+{
+    return "acosr";
+}
+
+QString AcosrFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "acosr(x) -\r\n";
+    strInstruction += "Arccosine (inverse cosine) function.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "x must be of type real. Its value must satisfy the inequality |X| <= 1.\r\n";
+    return strInstruction;
+}
+
+bool AcosrFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() != 1)
+    {
+        message = getName() + ":Invalid parameter count.";
+        return false;
+    }
+    double para = paraList.first();
+    if(para >= -1.0 && para <= 1.0)
+    {
+        result =acos(para);
+        return true;
+    }
+    else
+    {
+        message = getName() + ":Invalid input";
+        return false;
+    }
+}
+#include "additiveexpr.h"
+#include "multiplicativeexpr.h"
+
+AdditiveExpr::AdditiveExpr()
+{
+}
+
+AdditiveExpr::~AdditiveExpr()
+{
+
+}
+
+NonterminalExpr::ValueOperator* AdditiveExpr::getValueOperator(QString operatorContent)
+{
+    class MyOperator : public ValueOperator
+    {
+    public:
+        MyOperator(QString _operatorString):ValueOperator(),operatorString(_operatorString){}
+        virtual bool evaluate(double value1, double value2)
+        {
+            if(operatorString == "+")
+            {
+                evaluateResult = value1 + value2;
+                return true;
+            }
+            else if(operatorString == "-")
+            {
+                evaluateResult = value1 - value2;
+                return true;
+            }
+            else
+            {
+                errorMessage = "Invalid parameter.";
+                return false;
+            }
+        }
+
+    private:
+        QString operatorString;
+    };
+    return new MyOperator(operatorContent);
+}
+
+Expr* AdditiveExpr::buildExpr(BuildContext& context)
+{
+    return buildExprT<AdditiveExpr, MultiplicativeExpr>(context, "[-+]");
+}
+#include "asindfun.h"
+#include "functionmanager.h"
+
+#include <math.h>
+
+static FunctionManager::FunctionRegister asindRegister(new AsindFun());
+
+AsindFun::AsindFun()
+{
+}
+
+QString AsindFun::getName()
+{
+    return "asind";
+}
+
+QString AsindFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "asind(x) -\r\n";
+    strInstruction += "Arcsine (inverse sine) function. Result in degrees.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "must be of type real. Its value must satisfy the inequality |X| <= 1. \r\n";
+    return strInstruction;
+}
+
+bool AsindFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() != 1)
+    {
+        message = getName() + ":Invalid parameter count";
+        return false;
+    }
+    double para = paraList.first();
+    if(para >= -1.0 && para <= 1.0)
+    {
+        result =asin(para) * 180 / M_PI;
+        return true;
+    }
+    else
+    {
+        message = getName() + ":Invalid input";
+        return false;
+    }
+}
+#include "asinrfun.h"
+#include "functionmanager.h"
+
+#include <math.h>
+
+static FunctionManager::FunctionRegister funRegister(new AsinrFun());
+
+AsinrFun::AsinrFun()
+{
+}
+
+QString AsinrFun::getName()
+{
+    return "asinr";
+}
+
+QString AsinrFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "asinr(x) -\r\n";
+    strInstruction += "Arcsine (inverse sine) function.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "must be of type real. Its value must satisfy the inequality |X| <= 1. \r\n";
+    return strInstruction;
+}
+
+bool AsinrFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() != 1)
+    {
+        message = getName() + ":Invalid parameter count";
+        return false;
+    }
+    double para = paraList.first();
+    if(para >= -1.0 && para <= 1.0)
+    {
+        result =asin(para);
+        return true;
+    }
+    else
+    {
+        message = getName() + ":Invalid input";
+        return false;
+    }
+}
+#include "atandfun.h"
+#include "functionmanager.h"
+
+#include <math.h>
+
+static FunctionManager::FunctionRegister funRegister(new AtandFun());
+
+AtandFun::AtandFun()
+{
+}
+
+QString AtandFun::getName()
+{
+    return "atand";
+}
+
+QString AtandFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "atand(x) -\r\n";
+    strInstruction += "Arctangent (inverse tangent) function. Result in degrees..\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "x must be of type real.\r\n";
+    return strInstruction;
+}
+
+bool AtandFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() != 1)
+    {
+        message = getName() + ":Invalid parameter count";
+        return false;
+    }
+    double para = paraList.first();
+    result =atan(para) * 180 / M_PI;
+    return true;
+}
+#include "atanrfun.h"
+#include "functionmanager.h"
+
+#include <math.h>
+
+static FunctionManager::FunctionRegister funRegister(new AtanrFun());
+
+AtanrFun::AtanrFun()
+{
+}
+
+QString AtanrFun::getName()
+{
+    return "atanr";
+}
+
+QString AtanrFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "atanr(x)\r\n";
+    strInstruction += "Arctangent (inverse tangent) function.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "x must be of type real.\r\n";
+    return strInstruction;
+}
+
+bool AtanrFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() != 1)
+    {
+        message = getName() + ":Invalid parameter count";
+        return false;
+    }
+    double para = paraList.first();
+    result =atan(para);
+    return true;
+}
+#include "averagefun.h"
+#include "functionmanager.h"
+
+static FunctionManager::FunctionRegister funRegister(new AverageFun());
+
+AverageFun::AverageFun()
+{
+}
+
+QString AverageFun::getName()
+{
+    return "average";
+}
+
+QString AverageFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "average(x1,x2,x3,...xn)\r\n";
+    strInstruction += "Calcualte the average value of intput values.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "x1,x2,x3,...xn must be of type real.\r\n";
+    return strInstruction;
+}
+
+bool AverageFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() == 0)
+    {
+        message = getName() + ":Invalid parameter count";
+        return false;
+    }
+
+    result =0;
+    foreach(double value, paraList)
+    {
+        result += value;
+    }
+    result /= paraList.count();
+    return true;
+}
+#include "calculateengine.h"
+
+#include <QtAlgorithms>
+#include <QRegExp>
+
+#include "functionmanager.h"
+#include "token.h"
+#include "tokenanalyzer.h"
+
+#include "additiveexpr.h"
+
+#include "saverecordfun.h"
+#include "clearrecordfun.h"
+#include "getrecordfun.h"
+
+CalculateEngine::CalculateEngine()
+    :prevRecord(NULL), currentRecord(NULL)
+{
+}
+
+CalculateEngine::~CalculateEngine()
+{
+    if(prevRecord != NULL)
+    {
+        delete prevRecord;
+    }
+    if(currentRecord != NULL)
+    {
+        delete currentRecord;
+    }
+}
+
+QList<Token*> CalculateEngine::analyzeToken(QString strQuestion)
+{
+    typedef TokenAnalyzer<Token, Token::EType, QList<Token*>::iterator> MyAnalyzer;
+
+    class MyFactory : public MyAnalyzer::TokenPatternFactory
+    {
+        virtual int createPatterns(QList<MyAnalyzer::TokenPattern*>& list) const
+        {
+            FunctionManager* manager = FunctionManager::getInstance();
+            QList<QString> functions = manager->functions();
+
+            QString funPattern;
+            foreach(QString funName, functions)
+            {
+                if(funPattern.length() > 0)
+                {
+                    funPattern += "|";
+                }
+                funPattern += funName;
+            }
+            list.append(new MyAnalyzer::TokenPattern(Token::FunctionName, funPattern));
+
+            list.append(new MyAnalyzer::TokenPattern(Token::Number, "((\\.[0-9]+)|([0-9]+(\\.[0-9]*)?))[eE][+-]?[0-9]+"));
+            list.append(new MyAnalyzer::TokenPattern(Token::Number, "(\\.[0-9]+)|([0-9]+\\.[0-9]*)"));
+            list.append(new MyAnalyzer::TokenPattern(Token::Number, "[0-9]+"));
+            list.append(new MyAnalyzer::TokenPattern(Token::Operator, "[-+*/%]"));
+            list.append(new MyAnalyzer::TokenPattern(Token::Parenthese, "[()]"));
+            list.append(new MyAnalyzer::TokenPattern(Token::Comma, ","));
+
+            return list.count();
+        }
+    };
+
+    MyFactory factory;
+
+    MyAnalyzer analyzer;
+    QList<Token*> tokenList = analyzer.analyzeToken(strQuestion, &factory);
+    return tokenList;
+}
+
+QString CalculateEngine::calculate(QString strQuestion)
+{
+    if(prevRecord != NULL) delete prevRecord;
+    prevRecord = currentRecord;
+    currentRecord = new Record;
+    QList<Token*> tokenList = analyzeToken(strQuestion);
+    currentRecord->question = strQuestion;
+    QString result = calculate(tokenList);
+    qDeleteAll(tokenList);
+    return result;
+}
+
+QString CalculateEngine::calculate(QList<Token*>& tokenList)
+{
+    QString result;
+
+    Expr::BuildContext bContext(tokenList);
+
+    QString unknownToken;
+    foreach(Token* token, tokenList)
+    {
+        if(token->getType() == Token::NoType)
+        {
+            if(unknownToken.length() > 0)
+            {
+                unknownToken += ",";
+            }
+            unknownToken += token->getContent();
+        }
+    }
+    if(unknownToken.length() > 0)
+    {
+        currentRecord->success = false;
+        return "Unknown keyword:" + unknownToken;
+    }
+
+    Expr* expr = AdditiveExpr::buildExpr(bContext);
+    if(expr != NULL)
+    {
+        Expr::EvalulateContext eContext;
+        if(expr->evaluate(eContext))
+        {
+            currentRecord->success = true;
+            currentRecord->result = eContext.resultStack.last();
+            result.setNum(eContext.resultStack.last(), 'g', 12);
+        }
+        else
+        {
+            currentRecord->success = false;
+            result = eContext.errorMessage;
+        }
+        delete expr;
+    }
+    else
+    {
+        currentRecord->success = false;
+        result = bContext.errorMessage;
+    }
+    return result;
+}
+
+int CalculateEngine::getRecordCount()
+{
+    return recordList.count();
+}
+
+CalculateEngine::Record* CalculateEngine::getRecord(int index)
+{
+    if(index >= 0 && index < recordList.count())
+    {
+        return recordList.at(index);
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
+bool CalculateEngine::clearRecord(int index)
+{
+    if(index >= 0 && index < recordList.count())
+    {
+        recordList.removeAt(index);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool CalculateEngine::clearAllRecord()
+{
+    recordList.clear();
+    return true;
+}
+
+bool CalculateEngine::saveRecord()
+{
+    if(prevRecord != NULL && prevRecord->success)
+    {
+        recordList.append(prevRecord);
+        prevRecord = NULL;
+    }
+    return true;
+}
+
+bool CalculateEngine::registerRecordFunction()
+{
+    FunctionManager* manager = FunctionManager::getInstance();
+    manager->registerFunction(new SaveRecordFun(this));
+    manager->registerFunction(new ClearRecordFun(this));
+    manager->registerFunction(new GetRecordFun(this));
+    return true;
+}
+#include"calculatefunction.h"
+
+#include <fenv.h>
+
+CalculateFunction::CalculateFunction()
+{
+
+}
+
+void CalculateFunction::clearError()
+{
+    feclearexcept(FE_ALL_EXCEPT);
+}
+
+bool CalculateFunction::checkError(QString& message)
+{
+    int errnum = fetestexcept(FE_INVALID | FE_DIVBYZERO | FE_OVERFLOW | FE_UNDERFLOW);
+    if(errnum == 0)
+    {
+        return true;
+    }
+    else
+    {
+         message = getName() + ":" + QString(strerror(errnum));
+         return false;
+    }
+}
+#include "clearrecordfun.h"
+#include "functionmanager.h"
+
+#include "calculateengine.h"
+
+ClearRecordFun::ClearRecordFun(CalculateEngine* _engine)
+    :RecordFun(_engine)
+{
+}
+
+QString ClearRecordFun::getName()
+{
+    return "mc";
+}
+
+QString ClearRecordFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "mc(x)\r\n";
+    strInstruction += "Clear calculate result.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    QString recordCount;
+    recordCount.setNum(engine->getRecordCount());
+    strInstruction += "x record index. must be >= 0 and < " + recordCount + ".\r\n";
+    strInstruction += "----------Usable record.---------------\r\n";
+    strInstruction += getRecordString();
+    return strInstruction;
+}
+
+bool ClearRecordFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() == 0)
+    {
+        engine->clearAllRecord();
+    }
+    else
+    {
+        qSort(paraList.begin(), paraList.end(), qGreater<double>());
+        while(paraList.count() > 0)
+        {
+            double para = paraList.takeFirst();
+            if(!engine->clearRecord((int)para))
+            {
+                message = getName() + ":Invalid input";
+                return false;
+            }
+        }
+    }
+    result = 0;
+    return true;
+}
+#include "cosdfun.h"
+#include "functionmanager.h"
+
+#include <math.h>
+
+static FunctionManager::FunctionRegister funRegister(new CosdFun());
+
+CosdFun::CosdFun()
+{
+}
+
+QString CosdFun::getName()
+{
+    return "cosd";
+}
+
+QString CosdFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "cosd(x)\r\n";
+    strInstruction += "Cosine function. Argument in degrees.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "x must be of type real.\r\n";
+    return strInstruction;
+}
+
+bool CosdFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() != 1)
+    {
+        message = getName() + ":Invalid parameter count.";
+        return false;
+    }
+    double para = paraList.first();
+    result =cos(para * M_PI / 180);
+    return true;
+}
+#include "cosrfun.h"
+#include "functionmanager.h"
+
+#include <math.h>
+
+static FunctionManager::FunctionRegister funRegister(new CosrFun());
+
+CosrFun::CosrFun()
+{
+}
+
+QString CosrFun::getName()
+{
+    return "cosr";
+}
+
+QString CosrFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "cosr(x)\r\n";
+    strInstruction += "Cosine function.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "x must be of type real.\r\n";
+    return strInstruction;
+}
+
+bool CosrFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() != 1)
+    {
+        message = getName() + ":Invalid parameter count.";
+        return false;
+    }
+    double para = paraList.first();
+    result =cos(para);
+    return true;
+}
+#include "expfun.h"
+#include "functionmanager.h"
+
+static FunctionManager::FunctionRegister  funRegister(new ExpFun());
+
+ExpFun::ExpFun()
+{
+}
+
+QString ExpFun::getName()
+{
+    return "exp";
+}
+
+QString ExpFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "exp(x)r\n";
+    strInstruction += "Exponential.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "x must be of type real.\r\n";
+    return strInstruction;
+}
+
+bool ExpFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    return false;
+}
+#include "factorialfun.h"
+#include "functionmanager.h"
+
+static FunctionManager::FunctionRegister funRegister(new FactorialFun());
+
+FactorialFun::FactorialFun()
+{
+}
+
+QString FactorialFun::getName()
+{
+    return "n!";
+}
+
+QString FactorialFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "n!(x) -\r\n";
+    strInstruction += "Calculate factorial of input value.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "x must be of type integer and >= 1\r\n";
+    return strInstruction;
+}
+
+bool FactorialFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() != 1)
+    {
+        message = getName() + ":Invalid parameter count";
+        return false;
+    }
+    int para = (int)paraList.first();
+    if(para <= 0)
+    {
+        message = getName() + ":Invalid input";
+        return false;
+    }
+
+    result = 1;
+    for(int i = 1; i <= para; ++i)
+    {
+        result *= i;
+    }
+    return true;
+}
+#include "functionexpr.h"
+#include "additiveexpr.h"
+#include "functionmanager.h"
+
+FunctionExpr::FunctionExpr(QString name)
+    :functionName(name)
+{
+}
+
+FunctionExpr::~FunctionExpr()
+{
+}
+
+Expr* FunctionExpr::buildExpr(BuildContext& context)
+{
+    Token* token = NULL;
+    QString functionName;
+
+    token = context.tokenList.first();
+    if(token->getType() != Token::FunctionName) return NULL;
+    functionName = token->getContent();
+    delete context.tokenList.takeFirst();
+
+    if(context.tokenList.count() == 0)
+    {
+        context.errorMessage = "Expression is't complete";
+        return NULL;
+    }
+
+    token = context.tokenList.first();
+    if(token->getType() != Token::Parenthese || token->getContent() != "(")
+    {
+        context.errorMessage = "\'(\'is necessary";
+        return NULL;
+    }
+    delete context.tokenList.takeFirst();
+
+    if(context.tokenList.count() == 0)
+    {
+        context.errorMessage = "Expression is't complete";
+        return NULL;
+    }
+
+    FunctionExpr* funExpr = new FunctionExpr(functionName);
+
+    token = context.tokenList.first();
+    if(token->getType() == Token::Parenthese && token->getContent() == ")")
+    {
+        delete context.tokenList.takeFirst();
+        return funExpr;
+    }
+
+    while(true)
+    {
+        Expr* expr = AdditiveExpr::buildExpr(context);
+        if(expr == NULL) break;
+        funExpr->appendExpr(expr);
+
+        if(context.tokenList.count() == 0)
+        {
+            context.errorMessage = "Expression is't complete";
+            break;
+        }
+
+        token = context.tokenList.first();
+        if(token->getType() == Token::Comma)
+        {
+            delete context.tokenList.takeFirst();
+        }
+        else if(token->getType() == Token::Parenthese && token->getContent() == ")")
+        {
+            delete context.tokenList.takeFirst();
+            return funExpr;
+        }
+        else
+        {
+            context.errorMessage = functionName + " parameter error";
+            break;
+        }
+    }
+
+    delete funExpr;
+    return NULL;
+}
+
+bool FunctionExpr::evaluate(EvalulateContext& context)
+{
+   context.resultStack.append(0);
+    QList<double> paraList;
+    foreach(Expr* expr, exprList)
+    {
+        if(expr->evaluate(context))
+        {
+            paraList.append(context.resultStack.last());
+        }
+        else
+        {
+            return false;
+        }
+    }
+    context.resultStack.removeLast();
+
+    FunctionManager* manager = FunctionManager::getInstance();
+    CalculateFunction* fun = manager->getFunction(functionName);
+    if(fun == NULL)
+    {
+        context.errorMessage = "Can't found the function:" + functionName;
+        return false;
+    }
+    double result = 0;
+    if(fun->execute(paraList, result, context.errorMessage))
+    {
+        context.resultStack.removeLast();
+        context.resultStack.append(result);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+#include "functionmanager.h"
+
+#include <QtAlgorithms>
+
+FunctionManager* FunctionManager::m_singleManager = NULL;
+
+FunctionManager* FunctionManager::getInstance()
+{
+    if(m_singleManager == NULL)
+    {
+        m_singleManager = new FunctionManager();
+    }
+    return m_singleManager;
+}
+
+void FunctionManager::clearInstance()
+{
+    if(m_singleManager != NULL){
+        delete m_singleManager;
+        m_singleManager = NULL;
+    }
+}
+
+FunctionManager::FunctionManager()
+{
+}
+
+FunctionManager::~FunctionManager()
+{
+    qDeleteAll(m_functionMap);
+    m_functionMap.clear();
+}
+
+bool FunctionManager::registerFunction(CalculateFunction* fun)
+{
+    if(m_functionMap.find(fun->getName()) == m_functionMap.end())
+    {
+       m_functionMap.insert(fun->getName(), fun);
+       return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+QList<QString> FunctionManager::functions() const
+{
+    return m_functionMap.keys();
+}
+
+CalculateFunction* FunctionManager::getFunction(QString name)
+{
+    return m_functionMap[name];
+}
+#include "getrecordfun.h"
+#include "functionmanager.h"
+
+#include "calculateengine.h"
+
+GetRecordFun::GetRecordFun(CalculateEngine* _engine)
+    :RecordFun(_engine)
+{
+}
+
+QString GetRecordFun::getName()
+{
+    return "m";
+}
+
+QString GetRecordFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "m(x) -\r\n";
+    strInstruction += "get the saved calculate result.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    QString recordCount;
+    recordCount.setNum(engine->getRecordCount());
+    strInstruction += "x record index. must be >= 0 and < " + recordCount + ".\r\n";
+    strInstruction += "----------Usable record---------------\r\n";
+    strInstruction += getRecordString();
+    return strInstruction;
+}
+
+bool GetRecordFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() != 1)
+    {
+        message = getName() + ":Invalid input";
+        return false;
+    }
+    else
+    {
+        int index = paraList.first();
+        CalculateEngine::Record* record = engine->getRecord(index);
+        if(record != NULL)
+        {
+            result = record->result;
+            return true;
+        }
+        else
+        {
+            message = getName() + ":Invalid input";
+            return false;
+        }
+    }
+}
+#include "helpdialog.h"
+#include "ui_helpdialog.h"
+
+#include <QtWebKit/QWebView>
+
+HelpDialog::HelpDialog(QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::HelpDialog)
+{
+    ui->setupUi(this);
+}
+
+HelpDialog::~HelpDialog()
+{
+    delete ui;
+}
+#include "log10fun.h"
+#include "functionmanager.h"
+
+#include <math.h>
+
+static FunctionManager::FunctionRegister funRegister(new Log10Fun());
+
+Log10Fun::Log10Fun()
+{
+}
+
+QString Log10Fun::getName()
+{
+    return "log10";
+}
+
+QString Log10Fun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "log10(x)\r\n";
+    strInstruction += "Common logarithm.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "must be of type real. The value of X must be greater than zero.\r\n";
+    return strInstruction;
+}
+
+bool Log10Fun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() != 1)
+    {
+        message = getName() + ":Invalid parameter count";
+        return false;
+    }
+    double para = (int)paraList.first();
+    if(para <= 0)
+    {
+        message = getName() + ":Invalid input";
+        return false;
+    }
+
+    result = log10(para);
+    return true;
+}
+#include "logfun.h"
+#include "functionmanager.h"
+
+#include <math.h>
+
+static FunctionManager::FunctionRegister funRegister(new LogFun());
+
+LogFun::LogFun()
+{
+}
+
+QString LogFun::getName()
+{
+    return "ln";
+}
+
+QString LogFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "ln(x) -\r\n";
+    strInstruction += "Natural logarithm.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "x must be of type real and its value must be greater than zero.\r\n";
+    return strInstruction;
+}
+
+bool LogFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() != 1)
+    {
+        message = getName() + ":Invalid parameter count";
+        return false;
+    }
+    double para = (int)paraList.first();
+    if(para <= 0)
+    {
+        message = getName() + ":Invalid input";
+        return false;
+    }
+
+    result = log(para);
+    return true;
+}
+#include <QtGui/QApplication>
+#include "mainwindow.h"
+
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    MainWindow w;
+    w.show();
+
+    return a.exec();
+}
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+
+#include <QtAlgorithms>
+#include <QKeyEvent>
+
+#include "functionmanager.h"
+#include "helpdialog.h"
+
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+    ui->questionEdit->setHelper(this);
+
+    engine.registerRecordFunction();
+
+    FunctionManager* manager = FunctionManager::getInstance();
+    QList<QString> functions = manager->functions();
+
+    foreach(QString funName, functions)
+    {
+      ui->listFunction->addItem(funName);
+    }
+
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+    qDeleteAll(mTokenList);
+    FunctionManager::clearInstance();
+}
+
+void MainWindow::selectNext()
+{
+    QModelIndex modelIndex = ui->listFunction->currentIndex();
+    int row = modelIndex.row();
+    if(row < ui->listFunction->count() - 1)
+    {
+        QModelIndex nextIndex = modelIndex.sibling(modelIndex.row() + 1, 0);
+        ui->listFunction->setCurrentIndex(nextIndex);
+    }
+}
+
+void MainWindow::selectPrev()
+{
+    QModelIndex modelIndex = ui->listFunction->currentIndex();
+    int row = modelIndex.row();
+    if(row > 0)
+    {
+        QModelIndex nextIndex = modelIndex.sibling(modelIndex.row() - 1, 0);
+        ui->listFunction->setCurrentIndex(nextIndex);
+    }
+}
+
+void MainWindow::applyCurrent()
+{
+    int curTokenIndex = findCurrentToken();
+    QListWidgetItem* item = ui->listFunction->currentItem();
+    if(curTokenIndex != -1 && item != NULL)
+
+    {
+        Token* currentToken = mTokenList.at(curTokenIndex);
+
+        currentToken->setContent(item->text() + "()");
+        ui->questionEdit->setText(buildQuestionFromToken());
+
+        //将光标移到新输入函数名的后面
+        int beginIndex = 0;
+        int tokenIndex = 0;
+        foreach(Token* token, mTokenList)
+        {
+            QString content = token->getContent();
+            int endIndex = beginIndex + content.length();
+            if(tokenIndex == curTokenIndex + 1)
+            {
+                ui->questionEdit->setCursorPosition(endIndex);
+                ui->questionEdit->setFocus();
+                break;
+            }
+            beginIndex = endIndex;
+            ++tokenIndex;
+        }
+    }
+}
+
+void MainWindow::on_questionEdit_returnPressed()
+{
+    QLineEdit* edit = ui->questionEdit;
+    QString question = edit->text();
+    if(question.length() > 0)
+    {
+        QString answer = engine.calculate(ui->questionEdit->text());
+        ui->answerEdit->setText(answer);
+        QString dummy;
+        on_listFunction_currentTextChanged(dummy);
+        ui->questionEdit->selectAll();
+    }
+}
+
+int MainWindow::findCurrentToken()
+{
+    QLineEdit* edit = ui->questionEdit;
+
+    int curIndex = edit->cursorPosition();
+    if(curIndex == -1) return NULL;
+
+    if(mTokenList.count() > 0)
+    {
+        int tokenIndex = 0;
+        int beginIndex = 0;
+        foreach(Token* token, mTokenList)
+        {
+            QString content = token->getContent();
+            int endIndex = beginIndex + content.length();
+            if((token->getType() == Token::FunctionName || token->getType() == Token::NoType)
+                &&(curIndex >= beginIndex && curIndex < endIndex + 1))
+            {
+                return tokenIndex;
+            }
+            beginIndex = endIndex;
+            ++tokenIndex;
+        }
+    }
+    return -1;
+}
+
+QString MainWindow::buildQuestionFromToken()
+{
+    QString question;
+    foreach(Token* token, mTokenList)
+    {
+        question += token->getContent();
+    }
+    return question;
+}
+
+void MainWindow::on_questionEdit_textChanged(const QString &arg1)
+{
+    QString question = ui->questionEdit->text();
+    if(question.indexOf(" ") != -1)
+    {
+        question.remove(" ");
+        ui->questionEdit->setText(question);
+    }
+    question.remove(" ");
+    qDeleteAll(mTokenList);
+    mTokenList = engine.analyzeToken(arg1);
+    int curTokenIndex = findCurrentToken();
+    if(curTokenIndex != -1)
+    {
+        Token* currentToken = mTokenList.at(curTokenIndex);
+        QListWidget* list = ui->listFunction;
+        QList<QListWidgetItem *> items = list->findItems(currentToken->getContent(), Qt::MatchStartsWith);
+        if(items.count() > 0)
+        {
+            list->setCurrentItem(items.first());
+        }
+    }
+}
+
+void MainWindow::on_listFunction_currentTextChanged(const QString &currentText)
+{
+    QListWidgetItem* item = ui->listFunction->currentItem();
+    if(item != NULL)
+    {
+        FunctionManager* manager = FunctionManager::getInstance();
+        CalculateFunction* fun = manager->getFunction(item->text());
+        ui->textInstruction->setText(fun->getInstruction());
+    }
+    else
+    {
+        ui->textInstruction->setText("");
+    }
+}
+
+
+void MainWindow::on_actionExit_triggered()
+{
+    close();
+}
+
+void MainWindow::on_actionAbout_triggered()
+{
+    HelpDialog dlg(this);
+    dlg.exec();
+}
+#include "multiplicativeexpr.h"
+#include "unaryexpr.h"
+
+MultiplicativeExpr::MultiplicativeExpr()
+{
+}
+
+MultiplicativeExpr::~MultiplicativeExpr()
+{
+}
+
+Expr* MultiplicativeExpr::buildExpr(BuildContext& context)
+{
+   return buildExprT<MultiplicativeExpr, UnaryExpr>(context, "[*/%]");
+}
+
+NonterminalExpr::ValueOperator* MultiplicativeExpr::getValueOperator(QString operatorContent)
+{
+    class MyOperator : public ValueOperator
+    {
+    public:
+        MyOperator(QString _operatorString):operatorString(_operatorString){}
+        virtual bool evaluate(double value1, double value2)
+        {
+            if(operatorString == "*")
+            {
+                evaluateResult = value1 * value2;
+                return true;
+            }
+            else if(operatorString == "/")
+            {
+                if(value2 != 0)
+                {
+                    evaluateResult = value1 / value2;
+                    return true;
+                }
+                else
+                {
+                    errorMessage = "Devided by 0.";
+                    return false;
+                }
+            }
+            else if(operatorString == "%")
+            {
+                if((long)value2 != 0)
+                {
+                    evaluateResult = (long)value1 % (long)value2;
+                    return true;
+                }
+                else
+                {
+                    errorMessage = "Devided by 0.";
+                    return false;
+                }
+            }
+            else
+            {
+                errorMessage = "Invalid parameter.";
+                return false;
+            }
+        }
+
+    private:
+        QString operatorString;
+    };
+    return new MyOperator(operatorContent);
+}
+
+#include "nonterminalexpr.h"
+
+NonterminalExpr::NonterminalExpr()
+{
+}
+
+NonterminalExpr::~NonterminalExpr()
+{
+    qDeleteAll(exprList);
+    qDeleteAll(operatorList);
+}
+
+void NonterminalExpr::appendExpr(Expr* expr)
+{
+    exprList.append(expr);
+}
+
+void NonterminalExpr::appendOperator(Token* token)
+{
+    operatorList.append(token);
+}
+
+bool NonterminalExpr::evaluate(EvalulateContext& context)
+{
+    QList<Expr*>::iterator expr_it  = exprList.begin();
+
+    context.resultStack.append(0);
+
+    if(!(*expr_it)->evaluate(context)) return false;
+
+    expr_it++;
+
+    QList<Token*>::iterator operator_it = operatorList.begin();
+
+    if(exprList.end() - expr_it == operatorList.end() - operator_it)
+    {
+        while(expr_it != exprList.end())
+        {
+            double res_prev = context.resultStack.last();
+            (*expr_it)->evaluate(context);
+            double res_cur = context.resultStack.takeLast();
+            ValueOperator* valueOperator = this->getValueOperator((*operator_it)->getContent());
+            if(valueOperator->evaluate(res_prev, res_cur))
+            {
+                context.resultStack.append(valueOperator->getResult());
+            }
+            else
+            {
+                context.resultStack.clear();
+                context.errorMessage = valueOperator->getErrorMessage();
+                return false;
+            }
+            operator_it++;
+            expr_it++;
+        }
+        double result_all = context.resultStack.takeLast();
+        context.resultStack.removeLast();
+        context.resultStack.append(result_all);
+        return true;
+    }
+    else
+    {
+        context.resultStack.clear();
+        context.errorMessage = "Operator count and Expr count is not match.";
+        return false;
+    }
+}
+#include "numberexpr.h"
+
+NumberExpr::NumberExpr()
+{
+}
+
+NumberExpr::~NumberExpr()
+{
+}
+
+void NumberExpr::setValueString(QString value)
+{
+    valueString = value;
+}
+
+bool NumberExpr::evaluate(EvalulateContext& context)
+{
+    context.resultStack.removeLast();
+    context.resultStack.append(valueString.toDouble());
+    return true;
+}
+#include "powerfun.h"
+#include "functionmanager.h"
+
+#include <math.h>
+
+static FunctionManager::FunctionRegister funRegister(new PowerFun());
+
+PowerFun::PowerFun()
+{
+}
+
+QString PowerFun::getName()
+{
+    return "power";
+}
+
+QString PowerFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "power(x,y)\r\n";
+    strInstruction += "Returns the value of x raised to the power of y. That is, x is the base and y is the exponent.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "x, y any value.\r\n";
+    return strInstruction;
+}
+
+bool PowerFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() != 2)
+    {
+        message = getName() + ":Invalid parameter count";
+        return false;
+    }
+    clearError();
+    double x = paraList.takeFirst();
+    double y = paraList.takeFirst();
+    result = pow(x, y);
+    return checkError(message);
+}
+#include "primaryexpr.h"
+#include "numberexpr.h"
+#include "additiveexpr.h"
+#include "functionexpr.h"
+
+PrimaryExpr::PrimaryExpr()
+{
+}
+
+Expr* PrimaryExpr::buildExpr(BuildContext& context)
+{
+    if(context.tokenList.count() == 0) return NULL;
+
+    Token* token = context.tokenList.first();
+    switch(token->getType())
+    {
+    case Token::Number:
+        {
+            NumberExpr* expr = new NumberExpr();
+            expr->setValueString(token->getContent());
+            context.tokenList.removeFirst();
+            delete token;
+            return expr;
+        }
+    case Token::Parenthese:
+        if(token->getContent() == "(")
+        {
+            context.tokenList.removeFirst();
+            delete token;
+
+            Expr* expr = AdditiveExpr::buildExpr(context);
+            if(expr == NULL) return NULL;
+
+            token = context.tokenList.takeFirst();
+            if(token->getType() == Token::Parenthese && token->getContent() == ")")
+            {
+                delete token;
+                return expr;
+            }
+            else
+            {
+                context.errorMessage = "\')\'is necessary";
+                delete token;
+                delete expr;
+                return NULL;
+            }
+
+        }
+        else
+        {
+            context.errorMessage = "\'(\'is necessary";
+            return NULL;
+        }
+    case Token::FunctionName:
+        return FunctionExpr::buildExpr(context);
+    default:
+        return NULL;
+    }
+    return NULL;
+}
+#include "questionedit.h"
+
+#include <QKeyEvent>
+
+QuestionEdit::QuestionEdit(QWidget *parent) :
+    QLineEdit(parent)
+{
+}
+
+void QuestionEdit::setHelper(QuestionEditHelper* _helper)
+{
+    helper = _helper;
+}
+
+void QuestionEdit::keyPressEvent(QKeyEvent * event)
+{
+    switch(event->key())
+    {
+        case Qt::Key_Up:
+            helper->selectPrev();
+        break;
+        case Qt::Key_Down:
+            helper->selectNext();
+        break;
+        case Qt::Key_Space:
+            helper->applyCurrent();
+        break;
+        default:
+            QLineEdit::keyPressEvent(event);
+        break;
+    }
+}
+#include "recordfun.h"
+
+#include"calculateengine.h"
+
+RecordFun::RecordFun(CalculateEngine* _engine)
+    :engine(_engine)
+{
+}
+
+RecordFun::~RecordFun()
+{
+
+}
+
+QString RecordFun::getRecordString()
+{
+    QString recordString;
+    for(int i = 0; i < engine->getRecordCount(); ++i)
+    {
+        CalculateEngine::Record* record = engine->getRecord(i);
+        QString number;
+        number.setNum(i);
+        recordString += number;
+        recordString += ":";
+        QString result;
+        result.setNum(record->result, 'g', 12);
+        recordString += result;
+        recordString += "(" + record->question + ")\r\n";
+    }
+    return recordString;
+}
+#include "rootfun.h"
+#include "functionmanager.h"
+
+#include <math.h>
+
+static FunctionManager::FunctionRegister funRegister(new RootFun());
+
+RootFun::RootFun()
+{
+}
+
+QString RootFun::getName()
+{
+    return "root";
+}
+
+QString RootFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "root(x, y)\r\n";
+    strInstruction += "get the y times root of value x.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "x must be of type real and y must not be 0\r\n";
+    return strInstruction;
+}
+
+bool RootFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() != 2)
+    {
+        message = getName() + ":Invalid parameter count";
+        return false;
+    }
+    clearError();
+    double x = paraList.takeFirst();
+    double y = paraList.takeFirst();
+    if(y == 0)
+    {
+        message = getName() + ":Invalid input";
+        return false;
+    }
+    result = pow(x, 1/y);
+    return checkError(message);
+}
+#include "saverecordfun.h"
+#include "functionmanager.h"
+
+#include "calculateengine.h"
+
+SaveRecordFun::SaveRecordFun(CalculateEngine* _engine)
+    :RecordFun(_engine)
+{
+}
+
+QString SaveRecordFun::getName()
+{
+    return "ms";
+}
+
+QString SaveRecordFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "ms() -\r\n";
+    strInstruction += "Save result.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "none.\r\n";
+    return strInstruction;
+}
+
+bool SaveRecordFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() > 0)
+    {
+        message = getName() + ":Invalid input";
+        return false;
+    }
+    engine->saveRecord();
+    return true;
+}
+#include "sindfun.h"
+#include "functionmanager.h"
+
+#include <math.h>
+
+static FunctionManager::FunctionRegister funRegister(new SindFun());
+
+SindFun::SindFun()
+{
+}
+
+QString SindFun::getName()
+{
+    return "sind";
+}
+
+QString SindFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "sind(x)\r\n";
+    strInstruction += "Sine function. Argument in degrees.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "x must be of type real.\r\n";
+    return strInstruction;
+}
+
+bool SindFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() != 1)
+    {
+        message = getName() + ":Invalid parameter count.";
+        return false;
+    }
+    double para = paraList.first();
+    result =sin(para * M_PI / 180);
+    return true;
+}
+#include "sinrfun.h"
+#include "functionmanager.h"
+
+#include <math.h>
+
+static FunctionManager::FunctionRegister funRegister(new SinrFun());
+
+SinrFun::SinrFun()
+{
+}
+
+QString SinrFun::getName()
+{
+    return "sinr";
+}
+
+QString SinrFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "sinr(x)\r\n";
+    strInstruction += "Sine function.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "x must be of type real or complex. If X is real, it is regarded as a value in radians. If X is complex, its real and imaginary parts are regarded as values in radians.\r\n";
+    return strInstruction;
+}
+
+bool SinrFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() != 1)
+    {
+        message = getName() + ":Invalid parameter count.";
+        return false;
+    }
+    double para = paraList.first();
+    result =sin(para);
+    return true;
+}
+#include "sumfun.h"
+#include "functionmanager.h"
+
+static FunctionManager::FunctionRegister funRegister(new SumFun());
+
+SumFun::SumFun()
+{
+}
+
+QString SumFun::getName()
+{
+    return "sum";
+}
+
+QString SumFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "sum(x1,x2,x3,x4,...xn) -\r\n";
+    strInstruction += "Calcuate the sum of input parameters.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "x1,x2,...xn any number. \r\n";
+    return strInstruction;
+}
+
+bool SumFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() == 0)
+    {
+        message = getName() + ":Invalid parameter count";
+        return false;
+    }
+
+    result =0;
+    foreach(double value, paraList)
+    {
+        result += value;
+    }
+    return true;
+}
+#include "tandfun.h"
+#include "functionmanager.h"
+
+#include <math.h>
+
+static FunctionManager::FunctionRegister funRegister(new TandFun());
+
+TandFun::TandFun()
+{
+}
+
+QString TandFun::getName()
+{
+    return "tand";
+}
+
+QString TandFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "tand(x)\r\n";
+    strInstruction += "Tangent function. Argument in degrees.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "x must be of type real.\r\n";
+    return strInstruction;
+}
+
+bool TandFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() != 1)
+    {
+        message = getName() + ":Invalid parameter count";
+        return false;
+    }
+    double para = paraList.first() * M_PI / 180;
+    if(fabs(fabs(para) - M_PI_2) < 0.0000000000001)
+    {
+        message = getName() + ":Invalid input";
+        return false;
+    }
+
+    clearError();
+    result = tan(para);
+    return checkError(message);
+}
+#include "tanrfun.h"
+#include "functionmanager.h"
+
+#include <math.h>
+
+static FunctionManager::FunctionRegister tanrRegister(new TanrFun());
+
+TanrFun::TanrFun()
+{
+}
+
+QString TanrFun::getName()
+{
+    return "tanr";
+}
+
+QString TanrFun::getInstruction()
+{
+    QString strInstruction;
+    strInstruction += "tanr(x)\r\n";
+    strInstruction += "Tangent function.\r\n";
+    strInstruction += "Argument type and attributes\r\n";
+    strInstruction += "x must be of type real.\r\n";
+    return strInstruction;
+}
+
+bool TanrFun::execute(QList<double> paraList, double& result, QString& message)
+{
+    if(paraList.count() != 1)
+    {
+        message = getName() + ":Invalid parameter count";
+        return false;
+    }
+    double para = paraList.first();
+    if(fabs(fabs(para) - M_PI_2) < 0.0000000000001)
+    {
+        message = getName() + ":Invalid input";
+        return false;
+    }
+
+    clearError();
+    result = tan(para);
+    return checkError(message);
+}
+#include "terminalexpr.h"
+
+TerminalExpr::TerminalExpr()
+{
+}
+#include "token.h"
+
+#include <QtAlgorithms>
+#include "functionmanager.h"
+
+Token::Token(EType type, QString content)
+    :mType(type),mContent(content)
+{
+}
+
+Token::Token(QString content)
+    :mType(NoType),mContent(content)
+{
+}
+
+Token::EType Token::getType()
+{
+    return mType;
+}
+
+QString Token::getContent()
+{
+    return mContent;
+}
+
+void Token::setType(EType type)
+{
+    mType = type;
+}
+
+void Token::setContent(QString content)
+{
+    mContent = content;
+}
+
+bool Token::isNoType()
+{
+    return (mType == NoType);
+}
+
+#include "unaryexpr.h"
+#include "terminalexpr.h"
+#include "primaryexpr.h"
+
+UnaryExpr::UnaryExpr()
+    :primaryExpr(NULL)
+{
+}
+
+UnaryExpr::~UnaryExpr()
+{
+    if(primaryExpr != NULL)
+    {
+        delete primaryExpr;
+        primaryExpr = NULL;
+    }
+}
+
+Expr* UnaryExpr::buildExpr(BuildContext& context)
+{
+    int minusCount = 0;
+    while(context.tokenList.count() > 0 &&
+          context.tokenList.first()->getType() == Token::Operator)
+    {
+        QString content = context.tokenList.first()->getContent();
+        if(content == "-")
+        {
+            ++minusCount;
+        }
+        else if(content != "+")
+        {
+            context.errorMessage = "Invalid token:" + content;
+            return NULL;
+        }
+        delete context.tokenList.takeFirst();
+    }
+
+    if(context.tokenList.count() == 0)
+    {
+        context.errorMessage = "Expression is't complete";
+        return NULL;
+    }
+
+    Expr* expr = PrimaryExpr::buildExpr(context);
+
+    if(expr == NULL) return NULL;
+
+    if((minusCount % 2) == 1)
+    {
+        UnaryExpr* unary = new UnaryExpr();
+        unary->setPrimaryExpr(expr);
+        return unary;
+    }
+    else
+    {
+        return expr;
+    }
+}
+
+void UnaryExpr::setPrimaryExpr(Expr* expr)
+{
+    primaryExpr = expr;
+}
+
+bool UnaryExpr::evaluate(EvalulateContext& context)
+{
+    if(primaryExpr->evaluate(context))
+    {
+        double result = context.resultStack.takeLast();
+        context.resultStack.append(-result);
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+#ifndef ACOSDFUN_H
+#define ACOSDFUN_H
+
+#include"calculatefunction.h"
+
+class AcosdFun : public CalculateFunction
+{
+public:
+    AcosdFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // ACOSDFUN_H
+#ifndef ACOSRFUN_H
+#define ACOSRFUN_H
+
+#include"calculatefunction.h"
+
+class AcosrFun : public CalculateFunction
+{
+public:
+    AcosrFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // ACOSRFUN_H
+#ifndef ADDITIVEEXPR_H
+#define ADDITIVEEXPR_H
+
+#include"nonterminalexpr.h"
+
+class AdditiveExpr : public NonterminalExpr
+{
+public:
+    AdditiveExpr();
+    virtual ~AdditiveExpr();
+    static Expr* buildExpr(BuildContext& context);
+    virtual ValueOperator* getValueOperator(QString operatorContent);
+};
+
+#endif // ADDITIVEEXPR_H
+#ifndef ASINDFUN_H
+#define ASINDFUN_H
+
+#include"calculatefunction.h"
+
+class AsindFun : public CalculateFunction
+{
+public:
+    AsindFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+
+#endif // ASINDFUN_H
+#ifndef ASINRFUN_H
+#define ASINRFUN_H
+
+#include"calculatefunction.h"
+
+class AsinrFun : public CalculateFunction
+{
+public:
+    AsinrFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // ASINRFUN_H
+#ifndef ATANDFUN_H
+#define ATANDFUN_H
+
+#include"calculatefunction.h"
+
+class AtandFun : public CalculateFunction
+{
+public:
+    AtandFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // ATANDFUN_H
+#ifndef ATANRFUN_H
+#define ATANRFUN_H
+
+#include"calculatefunction.h"
+
+class AtanrFun : public CalculateFunction
+{
+public:
+    AtanrFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // ATANRFUN_H
+#ifndef AVERAGEFUN_H
+#define AVERAGEFUN_H
+
+#include"calculatefunction.h"
+
+class AverageFun : public CalculateFunction
+{
+public:
+    AverageFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // AVERAGEFUN_H
+#ifndef CALCULATEENGINE_H
+#define CALCULATEENGINE_H
+
+#include<QString>
+#include<QMap>
+#include<QList>
+
+#include "calculatefunction.h"
+#include "token.h"
+
+class CalculateEngine
+{
+public:
+    CalculateEngine();
+    CalculateEngine(CalculateEngine& engine){}
+    ~CalculateEngine();
+
+    QList<Token*> analyzeToken(QString strQuestion);
+    QString calculate(QString strQuestion);
+
+    struct Record
+    {
+        Record():success(false),result(0){}
+        bool success;
+        QString question;
+        double result;
+    };
+
+    int getRecordCount();
+    Record* getRecord(int index);
+    bool clearRecord(int index);
+    bool clearAllRecord();
+    bool saveRecord();
+    bool registerRecordFunction();
+private:
+    QString calculate(QList<Token*>& tokenList);
+    Record* prevRecord;
+    Record* currentRecord;
+    QList<Record*> recordList;
+};
+
+#endif // CALCULATEENGINE_H
+#ifndef CALCULATEFUNCTION_H
+#define CALCULATEFUNCTION_H
+
+#include<QString>
+#include<QList>
+
+class CalculateFunction
+{
+public:
+    CalculateFunction();
+    void clearError();
+    bool checkError(QString& message);
+    virtual QString getName() = 0;
+    virtual QString getInstruction() = 0;
+    virtual bool execute(QList<double> paraList, double& result, QString& message) = 0;
+};
+
+#endif // CALCULATORFUNCTION_H
+#ifndef CLEARRECORDFUN_H
+#define CLEARRECORDFUN_H
+
+#include"recordfun.h"
+
+class ClearRecordFun : public RecordFun
+{
+public:
+    ClearRecordFun(CalculateEngine* _engine);
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // CLEARRECORDFUN_H
+#ifndef COSDFUN_H
+#define COSDFUN_H
+
+#include"calculatefunction.h"
+
+class CosdFun : public CalculateFunction
+{
+public:
+    CosdFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // COSDFUN_H
+#ifndef COSRFUN_H
+#define COSRFUN_H
+
+#include"calculatefunction.h"
+
+class CosrFun : public CalculateFunction
+{
+public:
+    CosrFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // COSRFUN_H
+#ifndef EXPFUN_H
+#define EXPFUN_H
+
+#include"calculatefunction.h"
+
+class ExpFun : public CalculateFunction
+{
+public:
+    ExpFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // ACOSDFUN_H
+#ifndef EXPR_H
+#define EXPR_H
+
+#include<QList>
+#include<QString>
+#include"token.h"
+
+class Expr
+{
+public:
+    struct BuildContext
+    {
+        BuildContext(QList<Token*>& list):tokenList(list){}
+        QList<Token*>& tokenList;
+        QString errorMessage;
+    };
+
+    struct EvalulateContext
+    {
+        EvalulateContext(){resultStack.append(0);}
+        QList<double> resultStack;
+        QString errorMessage;
+    };
+
+    Expr(){}
+    virtual ~Expr(){}
+
+    virtual bool evaluate(EvalulateContext& context) = 0;
+};
+
+#endif // EXPR_H
+#ifndef FACTORIALFUN_H
+#define FACTORIALFUN_H
+
+#include"calculatefunction.h"
+
+class FactorialFun : public CalculateFunction
+{
+public:
+    FactorialFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // FACTORIALFUN_H
+#ifndef FUNCTIONEXPR_H
+#define FUNCTIONEXPR_H
+
+#include"nonterminalexpr.h"
+
+class FunctionExpr : public NonterminalExpr
+{
+public:
+    FunctionExpr(QString name);
+    ~FunctionExpr();
+    static Expr* buildExpr(BuildContext& context);
+    virtual bool evaluate(EvalulateContext& context);
+private:
+    QString functionName;
+};
+
+#endif // FUNCTIONEXPR_H
+#ifndef FUNCTIONMANAGER_H
+#define FUNCTIONMANAGER_H
+
+#include<QMap>
+#include<QList>
+#include<calculatefunction.h>
+
+class FunctionManager
+{
+public:
+    class FunctionRegister
+    {
+    public:
+        FunctionRegister(CalculateFunction* fun)
+        {
+            FunctionManager::getInstance()->registerFunction(fun);
+        }
+    };
+
+    static FunctionManager* getInstance();
+    static void clearInstance();
+
+    bool registerFunction(CalculateFunction* fun);
+    QList<QString> functions() const;
+    CalculateFunction* getFunction(QString name);
+private:
+    FunctionManager();
+    FunctionManager(FunctionManager& manager){}
+    ~FunctionManager();
+
+    static FunctionManager* m_singleManager;
+    QMap<QString, CalculateFunction*> m_functionMap;
+};
+
+#endif // FUNCTIONMANAGER_H
+#ifndef GETRECORDFUN_H
+#define ACOSDFUN_H
+
+#include"recordfun.h"
+
+class GetRecordFun : public RecordFun
+{
+public:
+    GetRecordFun(CalculateEngine* _engine);
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // GETRECORDFUN_H
+#ifndef HELPDIALOG_H
+#define HELPDIALOG_H
+
+#include <QDialog>
+
+namespace Ui {
+    class HelpDialog;
+}
+
+class HelpDialog : public QDialog
+{
+    Q_OBJECT
+
+public:
+    explicit HelpDialog(QWidget *parent = 0);
+    ~HelpDialog();
+
+private:
+    Ui::HelpDialog *ui;
+};
+
+#endif // HELPDIALOG_H
+#ifndef LOG10FUN_H
+#define LOG10FUN_H
+
+#include"calculatefunction.h"
+
+class Log10Fun : public CalculateFunction
+{
+public:
+    Log10Fun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // LOG10FUN_H
+#ifndef LOGFUN_H
+#define LOGFUN_H
+
+#include"calculatefunction.h"
+
+class LogFun : public CalculateFunction
+{
+public:
+    LogFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // LOGFUN_H
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+#include <QMainWindow>
+#include <QModelIndex>
+
+#include "questionedit.h"
+#include "token.h"
+#include "calculateengine.h"
+
+namespace Ui {
+    class MainWindow;
+}
+
+class MainWindow : public QMainWindow
+                    ,public QuestionEdit::QuestionEditHelper
+{
+    Q_OBJECT
+
+public:
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+    virtual void selectNext();
+    virtual void selectPrev();
+    virtual void applyCurrent();
+private slots:
+    void on_questionEdit_returnPressed();
+
+    void on_questionEdit_textChanged(const QString &arg1);
+
+    void on_listFunction_currentTextChanged(const QString &currentText);
+    void on_actionExit_triggered();
+
+    void on_actionAbout_triggered();
+
+private:
+    int findCurrentToken();
+    QString buildQuestionFromToken();
+    Ui::MainWindow *ui;
+    QList<Token*> mTokenList;
+    CalculateEngine engine;
+};
+
+#endif // MAINWINDOW_H
+#ifndef MULTIPLICATIVEEXPR_H
+#define MULTIPLICATIVEEXPR_H
+
+#include"nonterminalexpr.h"
+
+class MultiplicativeExpr : public NonterminalExpr
+{
+public:
+    MultiplicativeExpr();
+    ~MultiplicativeExpr();
+    static Expr* buildExpr(BuildContext& context);
+    virtual ValueOperator* getValueOperator(QString operatorContent);
+};
+
+#endif // MULTIPLICATIVEEXPR_H
+#ifndef NONTERMINALEXPR_H
+#define NONTERMINALEXPR_H
+
+#include"expr.h"
+#include<QString>
+
+class NonterminalExpr : public Expr
+{
+public:
+    NonterminalExpr();
+    virtual ~NonterminalExpr();
+
+    void appendExpr(Expr* expr);
+    void appendOperator(Token* token);
+
+    class ValueOperator
+    {
+    public:
+        ValueOperator():evaluateResult(0){}
+        virtual bool evaluate(double value1, double value2) = 0;
+        double getResult(){return evaluateResult;}
+        QString getErrorMessage(){return errorMessage;}
+    protected:
+        double evaluateResult;
+        QString errorMessage;
+    };
+
+    virtual bool evaluate(EvalulateContext& context);
+    virtual ValueOperator* getValueOperator(QString /*operatorContent*/){ return NULL; }
+
+protected:
+    QList<Expr*> exprList;
+    QList<Token*> operatorList;
+
+};
+
+template<typename ParentExpr, typename ChildExpr>
+Expr* buildExprT(Expr::BuildContext& context, QString operatorRegex)
+{
+    Expr* firstExpr = ChildExpr::buildExpr(context);
+
+    if(firstExpr == NULL) return NULL;
+
+    if(context.tokenList.count() == 0) return firstExpr;
+
+    Token* token = context.tokenList.first();
+
+    if((token->getType() != Token::Operator)
+       && (token->getType() != Token::Parenthese)
+       && (token->getType() != Token::Comma))
+    {
+        context.errorMessage = "Invalid token";
+        delete firstExpr;
+        return NULL;
+    }
+
+    QString content = token->getContent();
+    QRegExp regexp(operatorRegex);
+    if(content.indexOf(regexp) != 0) return firstExpr;
+
+    ParentExpr* parentExpr = new ParentExpr();
+    parentExpr->appendExpr(firstExpr);
+    parentExpr->appendOperator(token);
+    context.tokenList.removeFirst();
+
+    while(true)
+    {
+        Expr* expr = ChildExpr::buildExpr(context);
+
+        if(expr == NULL) break;
+
+        parentExpr->appendExpr(expr);
+
+        if(context.tokenList.count() == 0) return parentExpr;
+
+        token = context.tokenList.first();
+
+        if((token->getType() != Token::Operator)
+             && (token->getType() != Token::Parenthese))
+        {
+            context.errorMessage = "Invalid token:" + token->getContent();
+            break;
+        }
+
+        QString content = token->getContent();
+        QRegExp regexp(operatorRegex);
+        if(content.indexOf(regexp) != 0) return parentExpr;
+
+        parentExpr->appendOperator(token);
+        context.tokenList.removeFirst();
+
+        if(context.tokenList.count() == 0)
+        {
+            context.errorMessage = "Expression is't complete";
+            break;
+        }
+    }
+    delete parentExpr;
+    return NULL;
+}
+
+#endif // NONTERMINALEXPR_H
+#ifndef NUMBEREXPR_H
+#define NUMBEREXPR_H
+
+#include"terminalexpr.h"
+
+class NumberExpr : public TerminalExpr
+{
+public:
+    NumberExpr();
+    ~NumberExpr();
+    void setValueString(QString value);
+    virtual bool evaluate(EvalulateContext& context);
+private:
+    QString valueString;
+};
+
+#endif // NUMBEREXPR_H
+#ifndef POWERFUN_H
+#define POWERFUN_H
+
+#include"calculatefunction.h"
+
+class PowerFun : public CalculateFunction
+{
+public:
+    PowerFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // POWERFUN_H
+#ifndef PRIMARYEXPR_H
+#define PRIMARYEXPR_H
+
+#include"terminalexpr.h"
+
+class PrimaryExpr : public TerminalExpr
+{
+public:
+    PrimaryExpr();
+    static Expr* buildExpr(BuildContext& context);
+};
+
+#endif // PRIMARYEXPR_H
+#ifndef QUESTIONEDIT_H
+#define QUESTIONEDIT_H
+
+#include <QLineEdit>
+
+class QuestionEdit : public QLineEdit
+{
+    Q_OBJECT
+public:
+    class QuestionEditHelper
+    {
+    public:
+        virtual void selectNext() = 0;
+        virtual void selectPrev() = 0;
+        virtual void applyCurrent() = 0;
+    };
+
+    explicit QuestionEdit(QWidget *parent = 0);
+    virtual void keyPressEvent ( QKeyEvent * event );
+
+    void setHelper(QuestionEditHelper* _helper);
+signals:
+
+public slots:
+
+private:
+    QuestionEditHelper* helper;
+};
+
+#endif // QUESTIONEDIT_H
+#ifndef RECORDFUN_H
+#define RECORDFUN_H
+
+#include"calculatefunction.h"
+
+class CalculateEngine;
+
+class RecordFun : public CalculateFunction
+{
+public:
+    RecordFun(CalculateEngine* _engine);
+    ~RecordFun();
+protected:
+    CalculateEngine* engine;
+    QString getRecordString();
+};
+
+#endif // RECORDFUN_H
+#ifndef ROOTFUN_H
+#define ROOTFUN_H
+
+#include"calculatefunction.h"
+
+class RootFun : public CalculateFunction
+{
+public:
+    RootFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // ROOTFUN_H
+#ifndef SAVERECORDFUN_H
+#define SAVERECORDFUN_H
+
+#include"recordfun.h"
+
+class SaveRecordFun : public RecordFun
+{
+public:
+    SaveRecordFun(CalculateEngine* _engine);
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // SAVERECORDFUN_H
+#ifndef SINDFUN_H
+#define SINDFUN_H
+
+#include"calculatefunction.h"
+
+class SindFun : public CalculateFunction
+{
+public:
+    SindFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // SINDFUN_H
+#ifndef SINRFUN_H
+#define SINRFUN_H
+
+#include"calculatefunction.h"
+
+class SinrFun : public CalculateFunction
+{
+public:
+    SinrFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // SINRFUN_H
+#ifndef SUMFUN_H
+#define SUMFUN_H
+
+#include"calculatefunction.h"
+
+class SumFun : public CalculateFunction
+{
+public:
+    SumFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // SUMFUN_H
+#ifndef TANDFUN_H
+#define TANDFUN_H
+
+#include"calculatefunction.h"
+
+class TandFun : public CalculateFunction
+{
+public:
+    TandFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // TANDFUN_H
+#ifndef TANRFUN_H
+#define TANRFUN_H
+
+#include"calculatefunction.h"
+
+class TanrFun : public CalculateFunction
+{
+public:
+    TanrFun();
+
+    virtual QString getName();
+    virtual QString getInstruction();
+    virtual bool execute(QList<double> paraList, double& result, QString& message);
+};
+
+#endif // TANRFUN_H
+#ifndef TERMINALEXPR_H
+#define TERMINALEXPR_H
+
+#include"expr.h"
+
+class TerminalExpr : public Expr
+{
+public:
+    TerminalExpr();
+};
+
+#endif // TERMINALEXPR_H
+#ifndef TOKEN_H
+#define TOKEN_H
+
+#include<QString>
+#include<QRegExp>
+#include<QList>
+
+class Token
+{
+public:
+    enum EType
+    {
+        NoType,
+        Operator,
+        Parenthese,
+        Comma,
+        Number,
+        FunctionName
+    };
+
+    Token(EType type, QString content);
+    Token(QString content);
+    EType getType();
+    QString getContent();
+
+    void setType(EType type);
+    bool isNoType();
+    void setContent(QString content);
+
+private:
+    EType mType;
+    QString mContent;
+};
+
+#endif // TOKEN_H
+#ifndef TOKENANALYZER_H
+#define TOKENANALYZER_H
+
+#include<QString>
+#include<QList>
+#include<QRegExp>
+
+template<typename Token, typename TokenType, typename TokenIterator>
+class TokenAnalyzer
+{
+public:
+    struct TokenPattern
+    {
+        TokenPattern(TokenType _type, QString _regex):regex(_regex),type(_type){}
+        QRegExp regex;
+        TokenType type;
+    };
+
+    class TokenPatternFactory
+    {
+    public:
+        virtual int createPatterns(QList<TokenPattern*>& list) const= 0;
+    };
+
+    TokenAnalyzer(){}
+    QList<Token*> analyzeToken(QString strInput, const TokenPatternFactory* factory);
+private:
+    struct Context
+    {
+        Context(QList<Token*>& list, TokenIterator& _it, TokenPattern& _pattern, QString& _content)
+            :tokenList(list), it(_it), pattern(_pattern), content(_content){}
+        QList<Token*>& tokenList;
+        TokenIterator& it;
+        TokenPattern& pattern;
+        QString& content;
+    };
+    void analyzeContent(Context& context);
+};
+
+template<typename Token, typename TokenType, typename TokenIterator>
+QList<Token*> TokenAnalyzer<Token, TokenType, TokenIterator>::analyzeToken(QString strInput, const TokenPatternFactory* factory)
+{
+    QList<Token*> tokenList;
+
+    tokenList.append(new Token(strInput));
+
+    QList<TokenPattern*> list;
+    factory->createPatterns(list);
+
+    foreach(TokenPattern* pattern, list)
+    {
+        TokenIterator it = tokenList.begin();
+        while(it != tokenList.end())
+        {
+            Token* token = *it;
+            if(token->isNoType())
+            {
+                QString content = token->getContent();
+                Context context(tokenList, it, *pattern, content);
+                analyzeContent(context);
+            }
+            it++;
+        }
+    }
+    return tokenList;
+}
+
+template<typename Token, typename TokenType, typename TokenIterator>
+void TokenAnalyzer<Token, TokenType, TokenIterator>::analyzeContent(Context& context)
+{
+    Token* token = *context.it;
+    int tokenBegin = context.content.indexOf(context.pattern.regex);
+    if(tokenBegin != -1)
+    {
+        int matchedLength = context.pattern.regex.matchedLength();
+        int tokenEnd = tokenBegin + matchedLength;
+        if(tokenBegin > 0)
+        {
+            context.it = context.tokenList.insert(context.it, new Token(context.content.left(tokenBegin)));
+            context.it++;
+        }
+        if(tokenEnd < context.content.length())
+        {
+            context.it = context.tokenList.insert(context.it,
+                         new Token(context.pattern.type, context.content.mid(tokenBegin, matchedLength)));
+            context.it++;
+            context.content.remove(0, tokenEnd);
+            analyzeContent(context);
+        }
+        else
+        {
+            token->setContent(context.content.mid(tokenBegin, tokenEnd));
+            token->setType(context.pattern.type);
+            context.content.remove(0, tokenEnd);
+        }
+    }
+    else
+    {
+        token->setContent(context.content);
+    }
+}
+
+
+#endif // TOKENANALYZER_H
+#ifndef UNARYEXPR_H
+#define UNARYEXPR_H
+
+#include "terminalexpr.h"
+
+class UnaryExpr : public TerminalExpr
+{
+public:
+    UnaryExpr();
+    ~UnaryExpr();
+    void setPrimaryExpr(Expr* expr);
+    static Expr* buildExpr(BuildContext& context);
+    virtual bool evaluate(EvalulateContext& context);
+private:
+    Expr* primaryExpr;
+};
+
+#endif // UNARYEXPR_H
+

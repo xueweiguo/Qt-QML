@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>resource/calculator.png</file>
+        <file>resource/help.files/image001.jpg</file>
+        <file>resource/help.html</file>
+    </qresource>
+</RCC>
