@@ -14,7 +14,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+private slots:
+    bool close();
+    bool inputTextChanged();
 private:
     Ui::MainWindow *ui;
 };
